@@ -2,8 +2,7 @@
 {
     public class Comment
     {
-        public string Body { get; set; }
-        public int IssueNumber { get; set; }
+        public string body { get; set; }
 
     }
 }

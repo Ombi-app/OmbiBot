@@ -1,7 +1,9 @@
-﻿namespace OmbiBot.Processor
+﻿using System.Threading.Tasks;
+
+namespace OmbiBot.Processor
 {
     public interface IProcessor
     {
-        void Process(GithubIssuePayload payload);
+        Task Process(GithubIssuePayload payload);
     }
 }

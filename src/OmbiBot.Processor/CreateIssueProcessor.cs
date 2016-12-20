@@ -15,11 +15,34 @@ namespace OmbiBot.Processor
 
         private GithubConfiguration Config { get; }
 
-        public void Process(GithubIssuePayload payload)
+        public async Task Process(GithubIssuePayload payload)
         {
             var api = new ApiProcessor(Config);
 
-            api.Comment(new Comment {Body = "Test", IssueNumber = 1});
+            var defaultText = @"Hi!
+Thanks for the issue report. Before a real human comes by, please make sure you used our bug report format.
+Please make sure you also read our [FAQ](https://github.com/tidusjar/Ombi/wiki/FAQ)
+Make the title describe your issue. Having ""not working"" or ""I get this bug"" for 100 issues, isn't really helpful.
+If we need more information or there is some progress we tag the issue or update the tag and keep you updated.
+Cheers!
+Ombi Support";
+
+            if (!payload.issue.body.Contains("Plex Requests.Net Version:"))
+            {
+                // Comment
+                await api.Comment(new Comment
+                    {
+                        body =
+                            "Hello, Please use the Github template to report an issue, If it is a feature request then please visit: http://feathub.com/tidusjar/Ombi"
+                    }, payload.issue.number);
+
+                // Close
+                await api.CloseIssue(payload.issue.number);
+                return;
+            }
+
+            await api.Comment(new Comment {body = defaultText}, payload.issue.number);
+
         }
     }
 }

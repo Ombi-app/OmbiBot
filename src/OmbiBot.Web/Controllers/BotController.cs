@@ -13,12 +13,12 @@ namespace OmbiBot.Web.Controllers
     {
         // POST api/Bot
         [HttpPost]
-        public void Post([FromBody]GithubIssuePayload payload)
+        public async Task Post([FromBody]GithubIssuePayload payload)
         {
             if (payload.action.Equals("Created", StringComparison.CurrentCultureIgnoreCase))
             {
-                IProcessor p = new CreateIssueProcessor();
-                p.Process(payload);
+                var p = new CreateIssueProcessor();
+                await p.Process(payload);
             }
     
 
