@@ -5,10 +5,8 @@
   },
 
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.1"
-    }
+    "Microsoft.AspNet.WebHooks.Receivers" :  "1.2.0", 
+    "Microsoft.NETCore.App": "1.1.0"
   },
 
   "frameworks": {
