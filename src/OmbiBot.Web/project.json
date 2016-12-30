@@ -14,8 +14,7 @@
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "Microsoft.NETCore.App": {
-      "version": "1.1.0",
-      "type": "platform"
+      "version": "1.1.0"
     },
     "OmbiBot.Processor": "1.0.0-*"
   },
@@ -54,9 +53,5 @@
       "appsettings.json",
       "web.config"
     ]
-  },
-
-  "scripts": {
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   }
 }

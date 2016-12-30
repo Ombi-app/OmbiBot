@@ -8,16 +8,18 @@ namespace OmbiBot.Processor
 {
     public class CreateIssueProcessor : IProcessor
     {
-        public CreateIssueProcessor()
+        public CreateIssueProcessor(IApiProcessor api)
         {
+            Api = api;
             Config = new GithubConfiguration {RepoName = "OmbiBot", Owner = "Tidusjar"};
         }
+        private IApiProcessor Api { get; }
 
         private GithubConfiguration Config { get; }
 
         public async Task Process(GithubIssuePayload payload)
         {
-            var api = new ApiProcessor(Config);
+            Api.Config = Config;
 
             var defaultText = @"Hi!
 Thanks for the issue report. Before a real human comes by, please make sure you used our bug report format.
@@ -27,21 +29,22 @@ If we need more information or there is some progress we tag the issue or update
 Cheers!
 Ombi Support";
 
-            if (!payload.issue.body.Contains("Plex Requests.Net Version:"))
+            if (!payload.issue.body.Contains("Ombi Version:"))
             {
+                Console.WriteLine("Issue does not contain Ombi Version");
                 // Comment
-                await api.Comment(new Comment
+                await Api.Comment(new Comment
                     {
                         body =
                             "Hello, Please use the Github template to report an issue, If it is a feature request then please visit: http://feathub.com/tidusjar/Ombi"
                     }, payload.issue.number);
 
                 // Close
-                await api.CloseIssue(payload.issue.number);
+                await Api.CloseIssue(payload.issue.number);
                 return;
             }
 
-            await api.Comment(new Comment {body = defaultText}, payload.issue.number);
+            await Api.Comment(new Comment {body = defaultText}, payload.issue.number);
 
         }
     }

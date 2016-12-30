@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using OmbiBot.Processor.Models;
 using RestSharp.Portable;
 using RestSharp.Portable.WebRequest;
 
 namespace OmbiBot.Processor
 {
-    public class ApiProcessor
+    public class ApiProcessor : IApiProcessor
     {
 
-        public ApiProcessor(GithubConfiguration config)
+        public ApiProcessor(IOptions<ConfigurationModel> config)
         {
-            Config = config;
+            AppSettings = config;
         }
 
-        private GithubConfiguration Config { get; }
+        public GithubConfiguration Config { get; set; }
         private const string ApiEndpoint = "https://api.github.com/";
-
+        private IOptions<ConfigurationModel> AppSettings { get; }
 
         // PATCH /repos/:owner/:repo/issues/:number
         public async Task<IRestResponse<GithubIssue>> CloseIssue(int issueId)
@@ -81,7 +82,8 @@ namespace OmbiBot.Processor
 
         private void AddAuth(RestRequest req)
         {
-            req.AddHeader("Authorization", "token ");
+            
+            req.AddHeader("Authorization", $"token {AppSettings.Value.AuthToken}");
         }
     }
 }
