@@ -3,10 +3,10 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.1",
+    //"System.ComponentModel.Annotations": "4.3.0",
     "FubarCoder.RestSharp.Portable.Core": "4.0.7",
-    "FubarCoder.RestSharp.Portable.WebRequest": "4.0.7",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Microsoft.Extensions.Options": "1.1.0"
+    "FubarCoder.RestSharp.Portable.WebRequest": "4.0.7"
+    //"System.ComponentModel.Primitives": "4.3.0"
   },
 
   "frameworks": {

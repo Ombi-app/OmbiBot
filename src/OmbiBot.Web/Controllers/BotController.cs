@@ -11,21 +11,17 @@ namespace OmbiBot.Web.Controllers
     [Route("api/[controller]")]
     public class BotController : Controller
     {
-        public BotController(IProcessor p)
-        {
-            Processor = p;
-        }
-
-        private IProcessor Processor { get; }
         // POST api/Bot
         [HttpPost]
         public async Task Post([FromBody]GithubIssuePayload payload)
         {
-            if (payload.action.Equals("Created", StringComparison.CurrentCultureIgnoreCase) || payload.action.Equals("Opened", StringComparison.CurrentCultureIgnoreCase))
+            if (payload.action.Equals("Created", StringComparison.CurrentCultureIgnoreCase))
             {
-                Console.WriteLine("Issue Created");
-                await Processor.Process(payload);
+                var p = new CreateIssueProcessor();
+                await p.Process(payload);
             }
+    
+
         }
     }
 }

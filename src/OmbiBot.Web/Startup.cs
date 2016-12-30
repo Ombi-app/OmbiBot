@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using OmbiBot.Processor;
 
 namespace OmbiBot.Web
 {
@@ -40,26 +38,14 @@ namespace OmbiBot.Web
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
-
-            // Adds services required for using options.
-            services.AddOptions();
-
-            // Register the ConfigurationBuilder instance which MyOptions binds against.
-            services.Configure<ConfigurationModel>(Configuration);
-            services.AddTransient<IProcessor, CreateIssueProcessor>();
-            services.AddTransient<IApiProcessor, ApiProcessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            }); 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
+
             app.UseApplicationInsightsRequestTelemetry();
 
             app.UseApplicationInsightsExceptionTelemetry();
