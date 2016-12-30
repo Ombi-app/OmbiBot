@@ -29,6 +29,11 @@ If we need more information or there is some progress we tag the issue or update
 Cheers!
 Ombi Support Team";
 
+var adminRaised = payload.issue.user.login == "TidusJar" || !payload.issue.user.login == "SuperPotatoMen";
+if(adminRaised)
+{
+return;
+}
             if (!payload.issue.body.Contains("Problem Description:"))
            
             {
