@@ -37,7 +37,7 @@ Ombi Support Team";
                 await Api.Comment(new Comment
                     {
                         body =
-                            "Hello, Please use the Github template to report an issue, If it is a feature request then please visit: http://feathub.com/tidusjar/Ombi 
+                            @"Hello, Please use the Github template to report an issue, If it is a feature request then please visit: http://feathub.com/tidusjar/Ombi 
                             cheers!
                             Ombi Support Team"
                     }, payload.issue.number);
