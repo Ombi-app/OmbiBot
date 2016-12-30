@@ -11,7 +11,7 @@ namespace OmbiBot.Processor
         public CreateIssueProcessor(IApiProcessor api)
         {
             Api = api;
-            Config = new GithubConfiguration {RepoName = "OmbiBot", Owner = "Tidusjar"};
+            Config = new GithubConfiguration {RepoName = "Ombi", Owner = "Tidusjar"};
         }
         private IApiProcessor Api { get; }
 
