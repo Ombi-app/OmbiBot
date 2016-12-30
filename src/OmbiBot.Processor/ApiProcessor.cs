@@ -31,7 +31,7 @@ namespace OmbiBot.Processor
                 };
 
                 var issueTask = await GetIssue(issueId);
-                var issue = issueTask.Data;
+                var issue = issueTask.Data; 
                 issue.state = "closed";
 
                 request.AddJsonBody(issue);
