@@ -11,7 +11,7 @@ namespace OmbiBot.Processor
         public CreateIssueProcessor(IApiProcessor api)
         {
             Api = api;
-            Config = new GithubConfiguration {RepoName = "Ombi", Owner = "Tidusjar"};
+            Config = new GithubConfiguration { RepoName = "Ombi", Owner = "Tidusjar" };
         }
         private IApiProcessor Api { get; }
 
@@ -19,6 +19,7 @@ namespace OmbiBot.Processor
 
         public async Task Process(GithubIssuePayload payload)
         {
+            var actions = new AdditionalActions();
             Api.Config = Config;
 
             var defaultText = @"Hi!
@@ -29,31 +30,39 @@ If we need more information or there is some progress we tag the issue or update
 Cheers!
 Ombi Support Team";
 
-var adminRaised = payload.issue.user.login == "TidusJar" || !payload.issue.user.login == "SuperPotatoMen";
-if(adminRaised)
-{
-return;
-}
+            var actionText = actions.Process(payload.issue.body);
+
+            var adminRaised = !payload.issue.user.login.Equals("TidusJar", StringComparison.CurrentCultureIgnoreCase)
+                              || !payload.issue.user.login.Equals("SuperPotatoMen", StringComparison.CurrentCultureIgnoreCase));
+            if (adminRaised)
+            {
+                return;
+            }
+
+
+            if (!string.IsNullOrEmpty(actionText))
+            {
+                // If we have an action then add a new comment first.
+                await Api.Comment(new Comment { body = actionText }, payload.issue.number);
+            }
+
             if (!payload.issue.body.Contains("Problem Description:"))
-           
             {
                 Console.WriteLine("Issue does not contain Ombi Version");
                 // Comment
                 await Api.Comment(new Comment
-                    {
-                        body =
-                            @"Hello, Please use the Github template to report an issue, If it is a feature request then please visit: http://feathub.com/tidusjar/Ombi 
+                {
+                    body = @"Hello, Please use the Github template to report an issue, If it is a feature request then please visit: http://feathub.com/tidusjar/Ombi 
                             cheers!
                             Ombi Support Team"
-                    }, payload.issue.number);
+                }, payload.issue.number);
 
                 // Close
                 await Api.CloseIssue(payload.issue.number);
                 return;
             }
 
-            await Api.Comment(new Comment {body = defaultText}, payload.issue.number);
-
+            await Api.Comment(new Comment { body = defaultText }, payload.issue.number);
         }
     }
 }
