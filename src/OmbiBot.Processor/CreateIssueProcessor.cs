@@ -32,8 +32,8 @@ Ombi Support Team";
 
             var actionText = actions.Process(payload.issue.body);
 
-            var adminRaised = !payload.issue.user.login.Equals("TidusJar", StringComparison.CurrentCultureIgnoreCase)
-                              || !payload.issue.user.login.Equals("SuperPotatoMen", StringComparison.CurrentCultureIgnoreCase));
+            var adminRaised = payload.issue.user.login.Equals("TidusJar", StringComparison.CurrentCultureIgnoreCase)
+                              || payload.issue.user.login.Equals("SuperPotatoMen", StringComparison.CurrentCultureIgnoreCase);
             if (adminRaised)
             {
                 return;

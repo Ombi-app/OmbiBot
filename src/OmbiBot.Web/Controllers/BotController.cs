@@ -27,5 +27,11 @@ namespace OmbiBot.Web.Controllers
                 await Processor.Process(payload);
             }
         }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok();
+        }
     }
 }
