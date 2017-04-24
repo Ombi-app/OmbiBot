@@ -24,6 +24,7 @@ namespace OmbiBot.Processor
 
             var defaultText = @"Hi!
 Thanks for the issue report. Before a real human comes by, please make sure you used our bug report format.
+Have you looked on the forums yet? https://forums.ombi.io/
 Before posting make sure you also read our [FAQ](https://github.com/tidusjar/Ombi/wiki/FAQ) and [known issues](https://github.com/tidusjar/Ombi/wiki/Known-Issues).
 Make the title describe your issue. Having ""not working"" or ""I get this bug"" for 100 issues, isn't really helpful.
 If we need more information or there is some progress we tag the issue or update the tag and keep you updated.
@@ -52,7 +53,7 @@ Ombi Support Team";
                 // Comment
                 await Api.Comment(new Comment
                 {
-                    body = @"Hello, Please use the Github template to report an issue, If it is a feature request then please visit: http://feathub.com/tidusjar/Ombi 
+                    body = @"Hello, Please use the Github template to report an issue, If it is a feature request then please visit: https://forums.ombi.io/viewforum.php?f=20
                             cheers!
                             Ombi Support Team"
                 }, payload.issue.number);
