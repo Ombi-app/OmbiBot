@@ -1,18 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A2B937FE-126F-4249-9594-308022D3A165}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D56B29D-A80B-4400-805B-2138447EFD92}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OmbiBot.Web", "src\OmbiBot.Web\OmbiBot.Web.xproj", "{DCCAF210-70D7-497D-83DD-9E396154CF1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmbiBot.Web", "src\OmbiBot.Web\OmbiBot.Web.csproj", "{DCCAF210-70D7-497D-83DD-9E396154CF1E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OmbiBot.Processor", "src\OmbiBot.Processor\OmbiBot.Processor.xproj", "{A05C1E6D-F198-4062-A1BD-F81741903776}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmbiBot.Processor", "src\OmbiBot.Processor\OmbiBot.Processor.csproj", "{A05C1E6D-F198-4062-A1BD-F81741903776}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
