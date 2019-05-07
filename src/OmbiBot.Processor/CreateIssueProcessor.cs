@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using OmbiBot.Processor.Config;
 using OmbiBot.Processor.Models;
 
 namespace OmbiBot.Processor
 {
     public class CreateIssueProcessor : IProcessor
     {
-        public CreateIssueProcessor(IApiProcessor api)
+        public CreateIssueProcessor(IApiProcessor api, IOptions<IssueConfiguration> config, IOptions<ConfigurationModel> github)
         {
             Api = api;
-            Config = new GithubConfiguration { RepoName = "Ombi", Owner = "Tidusjar" };
+            _issueConfig = config.Value;
+
+            Config = new GithubConfiguration { RepoName = github.Value.RepoName, Owner = github.Value.Owner};
         }
         private IApiProcessor Api { get; }
-
+        private readonly IssueConfiguration _issueConfig;
         private GithubConfiguration Config { get; }
 
         public async Task Process(GithubIssuePayload payload)
@@ -22,40 +24,29 @@ namespace OmbiBot.Processor
             var actions = new AdditionalActions();
             Api.Config = Config;
 
-            var defaultText = @"Hi!
-Thanks for the issue report. Before a real human comes by, please make sure you used our bug report format.
-Have you looked on the forums yet? https://forums.ombi.io/
-Before posting make sure you also read our [FAQ](https://github.com/tidusjar/Ombi/wiki/FAQ) and [known issues](https://github.com/tidusjar/Ombi/wiki/Known-Issues).
-Make the title describe your issue. Having ""not working"" or ""I get this bug"" for 100 issues, isn't really helpful.
-If we need more information or there is some progress we tag the issue or update the tag and keep you updated.
-Cheers!
-Ombi Support Team";
-
             var actionText = actions.Process(payload.issue.body);
 
-            var adminRaised = payload.issue.user.login.Equals("TidusJar", StringComparison.CurrentCultureIgnoreCase)
-                              || payload.issue.user.login.Equals("SuperPotatoMen", StringComparison.CurrentCultureIgnoreCase);
-            if (adminRaised)
+            foreach (var allowed in _issueConfig.AllowedUsers)
             {
-                return;
+                if (payload.issue.user.login.Equals(allowed, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return;
+                }
             }
-
-
+            
             if (!string.IsNullOrEmpty(actionText))
             {
                 // If we have an action then add a new comment first.
                 await Api.Comment(new Comment { body = actionText }, payload.issue.number);
             }
 
-            if (!payload.issue.body.Contains("Problem Description:"))
+            if (!payload.issue.body.Contains(_issueConfig.TemplateContains))
             {
-                Console.WriteLine("Issue does not contain Ombi Version");
+                Console.WriteLine("Issue does not contain bug template");
                 // Comment
                 await Api.Comment(new Comment
                 {
-                    body = @"Hello, Please use the Github template to report an issue, If it is a feature request then please visit: https://forums.ombi.io/viewforum.php?f=20
-                            cheers!
-                            Ombi Support Team"
+                    body = _issueConfig.TemplateNotFollowedText
                 }, payload.issue.number);
 
                 // Close
@@ -63,7 +54,7 @@ Ombi Support Team";
                 return;
             }
 
-            await Api.Comment(new Comment { body = defaultText }, payload.issue.number);
+            await Api.Comment(new Comment { body = _issueConfig.Message }, payload.issue.number);
         }
     }
 }

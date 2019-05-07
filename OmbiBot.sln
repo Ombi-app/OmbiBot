@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A2B937FE-126F-4249-9594-308022D3A165}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D56B29D-A80B-4400-805B-2138447EFD92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmbiBot.Web", "src\OmbiBot.Web\OmbiBot.Web.csproj", "{DCCAF210-70D7-497D-83DD-9E396154CF1E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmbiBot.Processor", "src\OmbiBot.Processor\OmbiBot.Processor.csproj", "{A05C1E6D-F198-4062-A1BD-F81741903776}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmbiBot.Api", "OmbiBot.Api\OmbiBot.Api.csproj", "{FE810DA6-3FC5-4089-9400-2D4541A15AE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,20 +17,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DCCAF210-70D7-497D-83DD-9E396154CF1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCCAF210-70D7-497D-83DD-9E396154CF1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCCAF210-70D7-497D-83DD-9E396154CF1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCCAF210-70D7-497D-83DD-9E396154CF1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A05C1E6D-F198-4062-A1BD-F81741903776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A05C1E6D-F198-4062-A1BD-F81741903776}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A05C1E6D-F198-4062-A1BD-F81741903776}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A05C1E6D-F198-4062-A1BD-F81741903776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE810DA6-3FC5-4089-9400-2D4541A15AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE810DA6-3FC5-4089-9400-2D4541A15AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE810DA6-3FC5-4089-9400-2D4541A15AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE810DA6-3FC5-4089-9400-2D4541A15AE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{DCCAF210-70D7-497D-83DD-9E396154CF1E} = {A2B937FE-126F-4249-9594-308022D3A165}
 		{A05C1E6D-F198-4062-A1BD-F81741903776} = {A2B937FE-126F-4249-9594-308022D3A165}
+		{FE810DA6-3FC5-4089-9400-2D4541A15AE0} = {A2B937FE-126F-4249-9594-308022D3A165}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {817E94EA-AB43-4EEE-8A8D-0E3347B73A30}
 	EndGlobalSection
 EndGlobal

@@ -8,5 +8,7 @@ namespace OmbiBot.Processor
     public class ConfigurationModel
     {
         public string AuthToken { get; set; }
+        public string RepoName { get; set; }
+        public string Owner { get; set; }
     }
 }
