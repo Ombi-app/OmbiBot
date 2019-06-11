@@ -18,6 +18,10 @@ namespace OmbiBot.Api.Controllers
         [HttpPost]
         public async Task Post([FromBody]GithubIssuePayload payload)
         {
+            if (string.IsNullOrEmpty(payload.action))
+            {
+                return;
+            }
             if (payload.action.Equals("Created", StringComparison.CurrentCultureIgnoreCase) || payload.action.Equals("Opened", StringComparison.CurrentCultureIgnoreCase))
             {
                 Console.WriteLine("Issue Created");

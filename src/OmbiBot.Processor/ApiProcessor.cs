@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using OmbiBot.Processor.Models;
 using RestSharp.Portable;
@@ -9,10 +10,11 @@ namespace OmbiBot.Processor
 {
     public class ApiProcessor : IApiProcessor
     {
-
-        public ApiProcessor(IOptions<ConfigurationModel> config)
+        private readonly IConfiguration _configuration;
+        public ApiProcessor(IOptions<ConfigurationModel> config, IConfiguration configuration)
         {
             AppSettings = config;
+            _configuration = configuration;
         }
 
         public GithubConfiguration Config { get; set; }
@@ -83,7 +85,7 @@ namespace OmbiBot.Processor
         private void AddAuth(RestRequest req)
         {
             
-            req.AddHeader("Authorization", $"token {AppSettings.Value.AuthToken}");
+            req.AddHeader("Authorization", $"token {_configuration.GetSection("AuthToken").Value}");
         }
     }
 }
