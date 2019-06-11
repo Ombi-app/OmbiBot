@@ -83,7 +83,7 @@ namespace OmbiBot.Processor
         private void AddAuth(RestRequest req)
         {
             
-            req.AddHeader("Authorization", $"token {Environment.GetEnvironmentVariable("AuthToken")}");
+            req.AddHeader("Authorization", $"token {AppSettings.Value.AuthToken}");
         }
     }
 }
