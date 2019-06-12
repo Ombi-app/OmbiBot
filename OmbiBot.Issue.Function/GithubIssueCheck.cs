@@ -18,7 +18,7 @@ namespace OmbiBot.Issue.Function
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var services = Startup.CreateContainer();
+            var services = Startup.CreateContainer(log);
 
             log.LogInformation("C# HTTP trigger function processed a request.");
             

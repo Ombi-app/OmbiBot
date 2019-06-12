@@ -10,7 +10,7 @@ namespace OmbiBot.Processor
         private readonly ILogger _logger;
         private readonly IApiProcessor _api;
 
-        public CreateIssueProcessor(IApiProcessor api, ILogger<CreateIssueProcessor> logger)
+        public CreateIssueProcessor(IApiProcessor api, ILogger logger)
         {
             _api = api;
             _logger = logger;
