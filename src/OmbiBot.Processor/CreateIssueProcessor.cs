@@ -1,60 +1,48 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using OmbiBot.Processor.Config;
+using Microsoft.Extensions.Logging;
 using OmbiBot.Processor.Models;
 
 namespace OmbiBot.Processor
 {
     public class CreateIssueProcessor : IProcessor
     {
-        public CreateIssueProcessor(IApiProcessor api, IOptions<IssueConfiguration> config, IOptions<ConfigurationModel> github)
-        {
-            Api = api;
-            _issueConfig = config.Value;
+        private readonly ILogger _logger;
+        private readonly IApiProcessor _api;
 
-            Config = new GithubConfiguration { RepoName = github.Value.RepoName, Owner = github.Value.Owner};
+        public CreateIssueProcessor(IApiProcessor api, ILogger<CreateIssueProcessor> logger)
+        {
+            _api = api;
+            _logger = logger;
         }
-        private IApiProcessor Api { get; }
-        private readonly IssueConfiguration _issueConfig;
-        private GithubConfiguration Config { get; }
+
 
         public async Task Process(GithubIssuePayload payload)
         {
-            var actions = new AdditionalActions();
-            Api.Config = Config;
-
-            var actionText = actions.Process(payload.issue.body);
-
-            foreach (var allowed in _issueConfig.AllowedUsers)
+            var allowedUsers = Environment.GetEnvironmentVariable("AllowedUsers").Split(new []{"," }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var allowed in allowedUsers)
             {
                 if (payload.issue.user.login.Equals(allowed, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return;
                 }
             }
-            
-            if (!string.IsNullOrEmpty(actionText))
-            {
-                // If we have an action then add a new comment first.
-                await Api.Comment(new Comment { body = actionText }, payload.issue.number);
-            }
 
-            if (!payload.issue.body.Contains(_issueConfig.TemplateContains))
+            if (!payload.issue.body.Contains(Environment.GetEnvironmentVariable("IssueTemplateMatch")))
             {
-                Console.WriteLine("Issue does not contain bug template");
+               _logger.LogDebug("Issue does not contain bug template");
                 // Comment
-                await Api.Comment(new Comment
+                await _api.Comment(new Comment
                 {
-                    body = _issueConfig.TemplateNotFollowedText
+                    body = Environment.GetEnvironmentVariable("IssueTemplateNotFollowedText")
                 }, payload.issue.number);
 
                 // Close
-                await Api.CloseIssue(payload.issue.number);
+                await _api.CloseIssue(payload.issue.number);
                 return;
             }
 
-            await Api.Comment(new Comment { body = _issueConfig.Message }, payload.issue.number);
+            await _api.Comment(new Comment { body = Environment.GetEnvironmentVariable("GenericIssueMessage") }, payload.issue.number);
         }
     }
 }

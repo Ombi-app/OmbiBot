@@ -10,17 +10,14 @@ namespace OmbiBot.Processor
 {
     public class ApiProcessor : IApiProcessor
     {
-        private readonly IConfiguration _configuration;
-        public ApiProcessor(IOptions<ConfigurationModel> config, IConfiguration configuration)
-        {
-            AppSettings = config;
-            _configuration = configuration;
-        }
-
-        public GithubConfiguration Config { get; set; }
+        public GithubConfiguration Config { get {
+                return new GithubConfiguration
+                {
+                    Owner = Environment.GetEnvironmentVariable("GithubRepoOwner"),
+                    RepoName = Environment.GetEnvironmentVariable("GithubRepoName")
+                };
+            } }
         private const string ApiEndpoint = "https://api.github.com/";
-        private IOptions<ConfigurationModel> AppSettings { get; }
-
         // PATCH /repos/:owner/:repo/issues/:number
         public async Task<IRestResponse<GithubIssue>> CloseIssue(int issueId)
         {
@@ -85,7 +82,7 @@ namespace OmbiBot.Processor
         private void AddAuth(RestRequest req)
         {
             
-            req.AddHeader("Authorization", $"token {_configuration.GetSection("AuthToken").Value}");
+            req.AddHeader("Authorization", $"token {Environment.GetEnvironmentVariable("AuthToken")}");
         }
     }
 }

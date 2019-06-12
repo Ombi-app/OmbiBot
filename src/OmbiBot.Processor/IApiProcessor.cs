@@ -9,6 +9,5 @@ namespace OmbiBot.Processor
         Task<IRestResponse<GithubIssue>> CloseIssue(int issueId);
         Task<IRestResponse<CommentResponse>> Comment(Comment comment, int issueNumber);
         Task<IRestResponse<GithubIssue>> GetIssue(int issueId);
-        GithubConfiguration Config { get; set; }
     }
 }
