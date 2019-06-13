@@ -25,8 +25,11 @@ namespace OmbiBot.Issue.Function
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<GithubIssuePayload>(requestBody);
 
-            var processor = services.GetRequiredService<IProcessor>();
-            await processor.Process(data);
+            if (data.action.Equals("Opened", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var processor = services.GetRequiredService<IProcessor>();
+                await processor.Process(data);
+            }
 
             log.LogInformation("Finished processing issue");
             return new OkResult();
