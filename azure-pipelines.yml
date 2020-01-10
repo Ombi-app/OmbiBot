@@ -15,11 +15,10 @@ variables:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: publish
-    arguments: '--configuration $(buildConfiguration) --output publish_output'
-    projects: '*.csproj'
+    command: 'publish'
     publishWebProjects: false
-    modifyOutputPath: true
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --output publish_output'
     zipAfterPublish: false
 - task: ArchiveFiles@2
   displayName: "Archive files"
